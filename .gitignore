@@ -1,0 +1,27 @@
+## IntelliJ files
+*.iml
+*.ipr
+*.iws
+.idea
+*.log
+*.bat
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+src/cross_compile/
+*.exe
+*.exe~
+*.orig
+.*.swp
+.DS_Store
+bin/ip2region.db
+flow
+cmd/octopus-server
+octopus-server
+/build/mac-build.sh
+lastupdate.tmp
+/session
+/logs
+/.idea/
+/sessions
