@@ -19,7 +19,7 @@ type DefaultStructureConfig struct {
 }
 
 var defaultStructureConfig = &DefaultStructureConfig{
-	TempAddr: "https://github.com/rr13k/pen-pro",
+	TempAddr: "https://github.com/rr13k/pen-tmpl",
 }
 
 // 解析
@@ -28,7 +28,7 @@ func Parse(app *AppConfig) {
 		FillterDir: []string{".git"},
 		FileCall: func(name string, path string) {
 			if len(name) > 5 && name[len(name)-5:] == ".tmpl" {
-				tpl, err := template.ParseFiles(path) // "hao123/README.md.tmpl"
+				tpl, err := template.ParseFiles(path)
 				if err != nil {
 					fmt.Println(err)
 				}
