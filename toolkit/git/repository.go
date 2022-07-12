@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/rr13k/pen-cli/toolkit/command"
-	"github.com/rr13k/pen-cli/toolkit/utils"
+	"github.com/rr13k/pen/toolkit/command"
+	"github.com/rr13k/pen/toolkit/utils"
 )
 
 // git tag

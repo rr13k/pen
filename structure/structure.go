@@ -5,9 +5,9 @@ import (
 	"html/template"
 	"os"
 
-	"github.com/rr13k/pen-cli/suger"
-	"github.com/rr13k/pen-cli/toolkit/git"
-	"github.com/rr13k/pen-cli/toolkit/log"
+	"github.com/rr13k/pen/suger"
+	"github.com/rr13k/pen/toolkit/git"
+	"github.com/rr13k/pen/toolkit/log"
 )
 
 type AppConfig struct {

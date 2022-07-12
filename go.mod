@@ -1,4 +1,4 @@
-module github.com/rr13k/pen-cli
+module github.com/rr13k/pen
 
 go 1.18
 

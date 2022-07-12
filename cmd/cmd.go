@@ -34,7 +34,7 @@ var cmdApp = &cobra.Command{
 }
 
 func Cli() {
-	var rootCmd = &cobra.Command{Use: "pen-cli"}
+	var rootCmd = &cobra.Command{Use: "pen"}
 	rootCmd.AddCommand(cmdApp)
 	rootCmd.Execute()
 }
