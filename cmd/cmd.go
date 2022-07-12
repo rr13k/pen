@@ -17,18 +17,17 @@ var cmdApp = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var appName string
 		var unitTestFlag string
-		var unitTest bool
+		// var unitTest bool
 
 		fmt.Print("app name:")
 		fmt.Scan(&appName)
 
-		fmt.Print("use unit test (y/n):")
-		fmt.Scan(&unitTestFlag)
+		// fmt.Print("use unit test (y/n):")
+		// fmt.Scan(&unitTestFlag)
 
 		if unitTestFlag == "y" {
-			unitTest = true
+			// unitTest = true
 		}
-		fmt.Println("name:", appName, "unit test", unitTest)
 
 		structure.Run(&structure.AppConfig{
 			Name: appName,
