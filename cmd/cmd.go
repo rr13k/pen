@@ -33,6 +33,8 @@ var cmdApp = &cobra.Command{
 		structure.Run(&structure.AppConfig{
 			Name: appName,
 		})
+
+		fmt.Println(fmt.Sprintf("%s 创建成功! you can: cd %s", appName, appName))
 	},
 }
 

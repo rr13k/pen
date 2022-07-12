@@ -28,7 +28,6 @@ func Parse(app *AppConfig) {
 		FillterDir: []string{".git"},
 		FileCall: func(name string, path string) {
 			if len(name) > 5 && name[len(name)-5:] == ".tmpl" {
-				fmt.Println("匹配的文件", path)
 				tpl, err := template.ParseFiles(path) // "hao123/README.md.tmpl"
 				if err != nil {
 					fmt.Println(err)

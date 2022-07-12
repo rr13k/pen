@@ -2,7 +2,6 @@ package log
 
 import (
 	"bytes"
-	"fmt"
 	"strings"
 	"sync"
 	"time"
@@ -179,7 +178,6 @@ func InitLog(logConfigs map[string]LoggerConfig) {
 			one = false
 		}
 	}
-	fmt.Println("log init success!")
 }
 
 // 创建zapLog 包含errorLog
