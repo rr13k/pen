@@ -3,16 +3,15 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/rr13k/pen/structure"
 	"github.com/spf13/cobra"
 )
 
 var echoTimes int
 
-// https://github.com/rr13k/pen-pro.git
-
 var cmdApp = &cobra.Command{
-	Use:   "create",
-	Short: "create new app",
+	Use:   "new",
+	Short: "new app",
 	Long:  `快速构建pen框架脚手架`,
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -30,6 +29,10 @@ var cmdApp = &cobra.Command{
 			unitTest = true
 		}
 		fmt.Println("name:", appName, "unit test", unitTest)
+
+		structure.Run(&structure.AppConfig{
+			Name: appName,
+		})
 	},
 }
 

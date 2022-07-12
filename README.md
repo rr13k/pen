@@ -31,9 +31,12 @@
 ## Start
 
 ```shell
-    go get github/rr13k/pen  # 安装pen
+    go get -u github/rr13k/pen  # 安装pen
 
-    export PATH=$PATH:$GOROOT/bin:$GOBIN # 将go/bin(包含pen) 添加至环境变量
+    go install github.com/rr13k/pen
+
+    # 通常用户的GoPath为 ～/go 如果你的安装位置有更改需要手动替换        
+    export PATH=$PATH:~/go/bin # 将go/bin(包含pen) 添加至环境变量
 
     pen new  # 通过pen新建项目
 ```
