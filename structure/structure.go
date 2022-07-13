@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"html/template"
 	"os"
+	"path"
 
 	"github.com/rr13k/pen/suger"
+	"github.com/rr13k/pen/toolkit/command"
 	"github.com/rr13k/pen/toolkit/git"
 	"github.com/rr13k/pen/toolkit/log"
 )
@@ -61,6 +63,13 @@ func Run(appConfig *AppConfig) {
 		log.Error("beego pro git clone or pull repo error, err: %s", err.Error())
 		return
 	}
+
+	// 移除git source
+	_, stderr, err := command.ExecCmd("rm", "-rf", path.Join(appConfig.Name, ".git"))
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(stderr)
 
 	Parse(appConfig)
 }

@@ -68,9 +68,9 @@ func CloneORPullRepo(url string, branch string, dst string) error {
 	}
 }
 
-//
+// clone bracnch
 func CloneRepoBranch(branch string, url string, dst string) error {
-	_, stderr, err := command.ExecCmd("git", "clone", "-b", branch, url, dst)
+	_, stderr, err := command.ExecCmd("git", "clone", "--depth=1", "-b", branch, url, dst)
 	if err != nil {
 		return concatenateError(err, stderr)
 	}
