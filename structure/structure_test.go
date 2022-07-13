@@ -12,35 +12,15 @@ func TestMain(m *testing.T) {
 	})
 }
 
-func Test_LI(t *testing.T) {
+func Test_Run(t *testing.T) {
 
-	// user := AppConfig{
-	// 	Name: "hao123",
-	// }
+	Run(&AppConfig{
+		Name: "hao123",
+		Orm:  true,
+	})
+}
 
-	// DirsFiles(user.Name, DirsFilesConfig{
-	// 	FillterDir: []string{".git"},
-	// 	FileCall: func(name string, path string) {
-	// 		if len(name) > 5 && name[len(name)-5:] == ".tmpl" {
-	// 			fmt.Println("匹配的文件", path)
-	// 			tpl, err := template.ParseFiles(path) // "hao123/README.md.tmpl"
-	// 			if err != nil {
-	// 				fmt.Println(err)
-	// 			}
+// 测试刷新命令行显示
+func Test_F5(t *testing.T) {
 
-	// 			outFile := path[:len(path)-5]
-	// 			file, err := os.OpenFile(outFile, os.O_CREATE|os.O_WRONLY, 0755)
-	// 			if err != nil {
-	// 				panic(err)
-	// 			}
-	// 			//渲染输出
-	// 			err = tpl.Execute(file, user)
-	// 			if err != nil {
-	// 				panic(err)
-	// 			}
-	// 			// 删除模版文件
-	// 			os.Remove(path)
-	// 		}
-	// 	},
-	// })
 }

@@ -53,9 +53,9 @@ func CloneRepo(url string, dst string) (err error) {
 }
 
 // CloneORPullRepo
-func CloneORPullRepo(url string, dst string) error {
+func CloneORPullRepo(url string, branch string, dst string) error {
 	if !utils.IsDir(dst) {
-		return CloneRepo(url, dst)
+		return CloneRepoBranch(branch, url, dst)
 	} else {
 		utils.Mkdir(dst)
 

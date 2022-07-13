@@ -2,12 +2,19 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
+	"github.com/pterm/pterm"
 	"github.com/rr13k/pen/structure"
 	"github.com/spf13/cobra"
 )
 
 var echoTimes int
+
+var AppModelMap = map[string]string{
+	"1": "api",
+	"2": "gorm",
+}
 
 var cmdApp = &cobra.Command{
 	Use:   "new",
@@ -16,24 +23,23 @@ var cmdApp = &cobra.Command{
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		var appName string
-		var unitTestFlag string
-		// var unitTest bool
 
-		fmt.Print("app name:")
-		fmt.Scan(&appName)
+		appName, _ = pterm.DefaultInteractiveTextInput.WithMultiLine(false).Show("app name")
+		pterm.Println() // Blank line
 
-		// fmt.Print("use unit test (y/n):")
-		// fmt.Scan(&unitTestFlag)
-
-		if unitTestFlag == "y" {
-			// unitTest = true
+		var options = []string{
+			"1. only api",
+			"2. api + gorm",
 		}
+		modleStr, _ := pterm.DefaultInteractiveSelect.WithOptions(options).Show()
+		branch := AppModelMap[strings.Split(modleStr, ".")[0]]
 
 		structure.Run(&structure.AppConfig{
-			Name: appName,
+			Name:   appName,
+			Branch: branch,
 		})
 
-		fmt.Println(fmt.Sprintf("%s 创建成功! you can: cd %s", appName, appName))
+		fmt.Println(fmt.Sprintf("%s项目%s 创建成功! can you: cd %s", branch, appName, appName))
 	},
 }
 

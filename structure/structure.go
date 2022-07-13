@@ -11,7 +11,9 @@ import (
 )
 
 type AppConfig struct {
-	Name string
+	Name   string
+	Orm    bool
+	Branch string
 }
 
 type DefaultStructureConfig struct {
@@ -24,6 +26,7 @@ var defaultStructureConfig = &DefaultStructureConfig{
 
 // 解析
 func Parse(app *AppConfig) {
+
 	suger.DirsFiles(app.Name, suger.DirsFilesConfig{
 		FillterDir: []string{".git"},
 		FileCall: func(name string, path string) {
@@ -53,7 +56,7 @@ func Parse(app *AppConfig) {
 // 克隆项目并按照模版解析
 func Run(appConfig *AppConfig) {
 	// clone 模版项目
-	err := git.CloneORPullRepo(defaultStructureConfig.TempAddr, appConfig.Name)
+	err := git.CloneORPullRepo(defaultStructureConfig.TempAddr, appConfig.Branch, appConfig.Name)
 	if err != nil {
 		log.Error("beego pro git clone or pull repo error, err: %s", err.Error())
 		return
