@@ -35,7 +35,7 @@
     # 在GoPath目录下运行
     go get -u github/rr13k/pen  # 安装pen
 
-    go install github.com/rr13k/pen
+    go install github.com/rr13k/pen  # 编译
 
     # 通常用户的GoPath为 ～/go 如果你的安装位置有更改需要手动替换        
     export PATH=$PATH:~/go/bin # 将go/bin(包含pen) 添加至环境变量
