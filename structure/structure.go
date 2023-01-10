@@ -2,9 +2,9 @@ package structure
 
 import (
 	"fmt"
-	"html/template"
 	"os"
 	"path"
+	"text/template"
 
 	"github.com/rr13k/pen/suger"
 	"github.com/rr13k/pen/toolkit/command"
