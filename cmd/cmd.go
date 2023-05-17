@@ -13,8 +13,7 @@ import (
 )
 
 var AppModelMap = map[string]string{
-	"1": "api",
-	"2": "gorm",
+	"1": "gorm",
 }
 
 var cmdApp = &cobra.Command{
@@ -29,7 +28,6 @@ var cmdApp = &cobra.Command{
 		pterm.Println() // Blank line
 
 		var options = []string{
-			// "1. only api",
 			"1. api + gorm",
 		}
 		modleStr, _ := pterm.DefaultInteractiveSelect.WithOptions(options).Show()
@@ -44,11 +42,12 @@ var cmdApp = &cobra.Command{
 		// 生成基础模型文件
 
 		cmdPath, err := filepath.Abs(os.Args[0])
+		fmt.Println("cmdPath:", cmdPath, "os:", os.Args[0])
 		if err != nil {
 			panic(err)
 		}
 
-		GenerationModel(path.Join(cmdPath, appName, "internal", "app", "models", "user.go"))
+		GenerationModel(path.Join(filepath.Dir(cmdPath), appName, "internal", "app", "models", "user.go"))
 	},
 }
 
@@ -65,5 +64,6 @@ var cmdModul = &cobra.Command{
 func Cli() {
 	var rootCmd = &cobra.Command{Use: "pen"}
 	rootCmd.AddCommand(cmdApp, cmdModul)
+	rootCmd.Version = "v0.0.1"
 	rootCmd.Execute()
 }

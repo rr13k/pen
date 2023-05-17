@@ -46,9 +46,11 @@
     pen new  # 通过pen新建项目
 ```
 
-## 发布
+## 本地更新
 
 ```sh
+    # 安装本地开发版本(在pen目录下执行)
+    go install github.com/rr13k/pen
 
 ```
 

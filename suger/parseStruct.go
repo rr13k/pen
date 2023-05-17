@@ -5,6 +5,9 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"os"
+	"path"
+	"path/filepath"
 	"strings"
 )
 
@@ -16,7 +19,7 @@ type StructCode struct {
 }
 
 // 从 Go 文件中提取结构体定义
-func ExtractStructs(filePath string) map[string][]StructCode {
+func ExtractStructs(filePath string, deep bool) map[string][]StructCode {
 	fset := token.NewFileSet()
 	// 解析 Go 文件，生成抽象语法树（AST）
 	node, err := parser.ParseFile(fset, filePath, nil, parser.ParseComments)
@@ -56,9 +59,30 @@ func ExtractStructs(filePath string) map[string][]StructCode {
 
 				// 当模型继承了其他类型时,需要展开
 				if fieldName == "" {
-					c := field.Type.(*ast.Ident).Name
-					fmt.Println(c)
+					if deep {
+						privateStruceName := field.Type.(*ast.Ident).Name
+						// 如果里面继承了结构体,则需要找到结构体并展开
+						if !strings.Contains(privateStruceName, ".") { // 当不包含.时意味着结构体处于相同包
+							goFiles, err := getGoFiles(path.Dir(filePath))
+							// fileName :=  path.Base(filePath)
+							if err != nil {
+								panic(err)
+							}
+
+							for _, _gofile := range goFiles {
+								// 当查找子结构时，不展开，避免循环递归
+								_structs := ExtractStructs(_gofile, false)
+								for _structName, _struct := range _structs {
+									if _structName == privateStruceName {
+										structCodes = append(structCodes, _struct...)
+									}
+								}
+							}
+						}
+					}
+
 					continue
+					// 展开结构体
 				}
 
 				fieldType := fmt.Sprintf("%v", field.Type)
@@ -90,6 +114,23 @@ func ExtractStructs(filePath string) map[string][]StructCode {
 	}
 
 	return structMap
+}
+
+func getGoFiles(folderPath string) ([]string, error) {
+	var goFiles []string
+
+	dir, err := os.ReadDir(folderPath)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, file := range dir {
+		if !file.IsDir() && filepath.Ext(file.Name()) == ".go" {
+			goFiles = append(goFiles, filepath.Join(folderPath, file.Name()))
+		}
+	}
+
+	return goFiles, nil
 }
 
 func formatType(fieldType string) string {

@@ -23,7 +23,7 @@ type AppGenConfig struct {
 代码生成器
 */
 func GenerationModel(moduleFilePath string) {
-	structs := suger.ExtractStructs(moduleFilePath)
+	structs := suger.ExtractStructs(moduleFilePath, true)
 
 	modulePath := path.Dir(moduleFilePath)
 	appPath := path.Dir(modulePath)
