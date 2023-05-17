@@ -36,7 +36,7 @@
 
 ```shell
     # 在GoPath目录下运行
-    go get -u github/rr13k/pen  # 安装pen
+    go get -u github.com/rr13k/pen  # 安装pen
 
     go install github.com/rr13k/pen  # 编译
 
@@ -46,6 +46,11 @@
     pen new  # 通过pen新建项目
 ```
 
+## 发布
+
+```sh
+
+```
 
 ## 问题跟踪
 

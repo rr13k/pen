@@ -43,23 +43,18 @@ var cmdApp = &cobra.Command{
 		fmt.Printf("%s项目%s创建成功！can you: cd %s\n", branch, appName, appName)
 		// 生成基础模型文件
 
-		exe, err := os.Executable()
+		cmdPath, err := filepath.Abs(os.Args[0])
 		if err != nil {
-			fmt.Println("Failed to get executable path:", err)
+			panic(err)
 		}
 
-		// 获取可执行文件所在相对目录
-		root := filepath.Dir(exe)
-
-		fmt.Println("root:", root)
-
-		GenerationModel(path.Join(root, "appName", "internal", "app", "models", "user.go"))
+		GenerationModel(path.Join(cmdPath, appName, "internal", "app", "models", "user.go"))
 	},
 }
 
 var cmdModul = &cobra.Command{
 	Use:   "modul [path]",
-	Short: "Print the given path",
+	Short: "by model file path generation http server",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("传入的文件路径为:", args[0])
