@@ -1,0 +1,180 @@
+package __pen_handler
+
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"{{.Name}}/internal/app/common"
+	"{{.Name}}/internal/app/servers"
+	{{toLowerFiristChar .StructName}}_server "{{.Name}}/internal/app/servers/{{toLowerFiristChar .StructName}}_servers"
+	"{{.Name}}/internal/app/servers/{{toLowerFiristChar .StructName}}_servers/{{getServerPenStruceName .StructName}}"
+	"{{.Name}}/internal/app/toolkit/log"
+	"{{.Name}}/internal/app/toolkit/router"
+)
+
+func init() {
+	router.UrlGroup("/{{toLowerFiristChar .StructName}}",
+		router.Url("/list", Get{{.StructName}}List),
+		router.Url("/find", Get{{.StructName}}),
+	)
+}
+
+func Get{{.StructName}}List(w http.ResponseWriter, r *http.Request) {
+
+	type Args struct {
+		servers.Pagination
+	}
+
+	var (
+		args Args
+		err  error
+	)
+
+	json.NewDecoder(r.Body).Decode(&args)
+
+	var result = &common.BaseResponse{
+		Success: true,
+	}
+
+	{{toLowerFiristChar .StructName}}Server := {{toLowerFiristChar .StructName}}_server.{{.StructName}}{
+		Pen{{.StructName}} : {{getServerPenStruceName .StructName}}.Pen{{.StructName}}{
+			Pagination: args.Pagination,
+		},
+	}
+
+	{{.StructName}}s, err := {{toLowerFiristChar .StructName}}Server.List()
+	if err != nil {
+		fmt.Println(err)
+		log.Error(err.Error())
+	}
+
+	result.Data = {{.StructName}}s
+	_res, _ := json.Marshal(result)
+	w.Write(_res)
+}
+
+func Update{{.StructName}}(w http.ResponseWriter, r *http.Request) {
+	type Args struct {
+		{{range filterDefaultField .Fields}}
+		{{.Key}} *{{.Type}} `json:"{{.Json}}"`
+		{{end}}
+	}
+	var (
+		args Args
+		err  error
+	)
+
+	json.NewDecoder(r.Body).Decode(&args)
+
+	var result = &common.BaseResponse{
+		Success: true,
+	}
+
+	{{toLowerFiristChar .StructName}}Server := {{toLowerFiristChar .StructName}}_server.{{.StructName}}{
+		Pen{{.StructName}} : {{getServerPenStruceName .StructName}}.Pen{{.StructName}}{
+			{{range filterDefaultField .Fields}}
+			{{.Key}} : args.{{.Key}},
+			{{end}}
+		},
+	}
+	err = {{toLowerFiristChar .StructName}}Server.Update()
+	if err != nil {
+		fmt.Print(err)
+		result.Msg = err.Error()
+	}
+
+	_res, _ := json.Marshal(result)
+	w.Write(_res)
+}
+
+func Delete{{.StructName}}(w http.ResponseWriter, r *http.Request) {
+	type Args struct {
+		{{.PrimaryKey}} int `json:"{{toLowerFiristChar .PrimaryKey}}"`
+	}
+	var (
+		args Args
+		err  error
+	)
+
+	json.NewDecoder(r.Body).Decode(&args)
+	var result common.BaseResponse
+
+	{{toLowerFiristChar .StructName}}Server := {{toLowerFiristChar .StructName}}_server.{{.StructName}}{
+		Pen{{.StructName}} : {{getServerPenStruceName .StructName}}.Pen{{.StructName}}{
+				{{.PrimaryKey}}: &args.{{.PrimaryKey}},
+		},
+	}
+
+	err = {{toLowerFiristChar .StructName}}Server.Delete()
+	if err != nil {
+		result.Msg = err.Error()
+		result.Code = 22
+	}
+	_res, _ := json.Marshal(result)
+	w.Write(_res)
+}
+
+func Create{{.StructName}}(w http.ResponseWriter, r *http.Request) {
+
+	type Args struct {
+		{{range filterDefaultField .Fields}}
+		{{.Key}} *{{.Type}} `json:"{{.Json}}"`
+		{{end}}
+	}
+
+	var (
+		args Args
+		err  error
+	)
+	json.NewDecoder(r.Body).Decode(&args)
+
+	var result = &common.BaseResponse{
+		Success: true,
+		Msg:     "创建成功!",
+	}
+
+	{{toLowerFiristChar .StructName}}Server := {{toLowerFiristChar .StructName}}_server.{{.StructName}}{
+		Pen{{.StructName}} : {{getServerPenStruceName .StructName}}.Pen{{.StructName}}{
+			{{range filterDefaultField .Fields}}
+			{{.Key}} : args.{{.Key}},
+			{{end}}
+		},
+	}
+
+	err = {{toLowerFiristChar .StructName}}Server.Create()
+	if err != nil {
+		result.Success = false
+		result.Msg = err.Error()
+	}
+
+	_res, _ := json.Marshal(result)
+	w.Write(_res)
+}
+
+func Get{{.StructName}}(w http.ResponseWriter, r *http.Request) {
+	type Args struct {
+		{{.PrimaryKey}}   *int  `json:"{{toLowerFiristChar .PrimaryKey}}"`
+	}
+	var (
+		args Args
+		err  error
+	)
+	json.NewDecoder(r.Body).Decode(&args)
+
+	var result common.BaseResponse
+	result.Data = make(map[string]interface{})
+
+	{{toLowerFiristChar .StructName}}Server := {{toLowerFiristChar .StructName}}_server.{{.StructName}}{
+		Pen{{.StructName}} : {{getServerPenStruceName .StructName}}.Pen{{.StructName}}{
+			{{.PrimaryKey}}: args.{{.PrimaryKey}},
+		},
+	}
+
+	result.Data, err = {{toLowerFiristChar .StructName}}Server.Get()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	_res, _ := json.Marshal(result)
+	w.Write(_res)
+}

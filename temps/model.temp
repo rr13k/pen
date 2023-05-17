@@ -1,0 +1,35 @@
+package __pen_models
+
+import "{{.Name}}/internal/app/models"
+
+func Create{{.StructName}}(maps map[string]interface{}) error {
+	return models.DB.Model(&models.{{.StructName}}{}).Create(maps).Error
+}
+
+func Delete{{.StructName}}(id int) error {
+	return models.DB.Model(&models.{{.StructName}}{}).Where("id", id).Delete(&models.{{.StructName}}{}).Error
+}
+
+func Get{{.StructName}}List(pageNum int, pageSize int, maps map[string]interface{}) ([]*models.{{.StructName}}, error) {
+	var _{{toLowerFiristChar .StructName}}s []*models.{{.StructName}}
+	err := models.WhereMap(models.DB, maps).Model(&models.{{.StructName}}{}).Offset(pageNum).Limit(pageSize).Find(&_{{toLowerFiristChar .StructName}}s).Error
+	return _{{toLowerFiristChar .StructName}}s, err
+}
+
+func Get{{.StructName}}Total(maps map[string]interface{}) (int, error) {
+	var count int64
+	if err := models.WhereMap(models.DB, maps).Model(&models.{{.StructName}}{}).Count(&count).Error; err != nil {
+		return 0, err
+	}
+	return int(count), nil
+}
+
+func Update{{.StructName}}({{toLowerFiristChar .PrimaryKey}} int, maps map[string]interface{}) error {
+	return models.DB.Model(&models.{{.StructName}}{}).Where("toLowerFiristChar .PrimaryKey", {{toLowerFiristChar .PrimaryKey}}).Updates(maps).Error
+}
+
+func Get{{.StructName}}(maps interface{}) (*models.{{.StructName}}, error) {
+	var _{{toLowerFiristChar .StructName}} *models.{{.StructName}}
+	err := models.DB.Model(&models.{{.StructName}}{}).Where(maps).Find(&_{{toLowerFiristChar .StructName}}).Error
+	return _{{toLowerFiristChar .StructName}}, err
+}

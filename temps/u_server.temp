@@ -1,0 +1,9 @@
+package {{toLowerFiristChar .StructName}}_servers
+
+import (
+	"{{.Name}}/internal/app/servers/{{toLowerFiristChar .StructName}}_servers/pen_{{toLowerFiristChar .StructName}}_server"
+)
+
+type {{.StructName}} struct {
+	pen_{{toLowerFiristChar .StructName}}_server.Pen{{.StructName}}
+}

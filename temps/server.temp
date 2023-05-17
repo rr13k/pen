@@ -1,0 +1,81 @@
+package pen_{{toLowerFiristChar .StructName}}_server
+
+import (
+	pen_models "{{.Name}}/internal/app/models/pen_models"
+	"{{.Name}}/internal/app/servers"
+	"{{.Name}}/internal/app/common"
+	"{{.Name}}/internal/app/models"
+
+	{{ autoImport .Fields}}
+)
+
+type Pen{{.StructName}} struct {
+	{{range .Fields}}
+	{{.Key}} *{{.Type}} `json:"{{.Json}}"`
+	{{end}}
+
+	servers.Pagination
+}
+
+func (p *Pen{{.StructName}}) Create() error {
+	_data, err := p.Verify()
+	if err != nil {
+		return err
+	}
+
+	return pen_models.Create{{.StructName}}(_data)
+}
+
+func (p *Pen{{.StructName}}) Delete() error {
+	return pen_models.Delete{{.StructName}}(1)
+}
+
+func (p *Pen{{.StructName}}) List() (*common.ListResult, error) {
+	var (
+		commoditys []*models.{{.StructName}}
+		err        error
+	)
+
+	commoditys, err = pen_models.Get{{.StructName}}List(p.GetCurrentPage(), p.GetPageSize(), p.getMaps())
+	if err != nil {
+		return nil, err
+	}
+
+	total, err := pen_models.Get{{.StructName}}Total(p.getMaps())
+
+	var listResult = &common.ListResult{
+		Total: total,
+		Data:  commoditys,
+	}
+	return listResult, err
+}
+
+func (c *Pen{{.StructName}}) Get() (*models.{{.StructName}}, error) {
+	return pen_models.Get{{.StructName}}(c.{{.PrimaryKey}})
+}
+
+func (p *Pen{{.StructName}}) getMaps() map[string]interface{} {
+	maps := make(map[string]interface{})
+
+	return maps
+}
+
+func (p *Pen{{.StructName}}) Update() error {
+	data, err := p.Verify()
+	if err != nil {
+		return err
+	}
+	err = pen_models.Update{{.StructName}}(*p.{{.PrimaryKey}} , data)
+	return err
+}
+
+func (p *Pen{{.StructName}}) Verify() (map[string]interface{}, error) {
+	data := make(map[string]interface{})
+
+	// if p.NameZH != nil {
+	// 	data["name_zh"] = *c.NameZH
+	// }
+
+	return data, nil
+}
+
