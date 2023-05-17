@@ -48,8 +48,3 @@ func Test_Parse(t *testing.T) {
 
 	Parse(appConfig)
 }
-
-// 测试刷新命令行显示
-func Test_F5(t *testing.T) {
-
-}

@@ -205,9 +205,13 @@ func filterDefaultField(StructCodes []suger.StructCode) []suger.StructCode {
 
 // 渲染模版根据结构体生成文件
 func renderTemplate(tempName string, app interface{}, outPath string) error {
-	tempsDir, _ := GetTempsDir()
+	// tempsDir, _ := GetTempsDir()
+	// _filePath := path.Join(tempsDir, tempName)
 
-	_filePath := path.Join(tempsDir, tempName)
+	_filePath, err := CmdEmbedTempsContent.ReadFile(fmt.Sprintf("temps/%s", tempName))
+	if err != nil {
+		fmt.Println("read file err:", err)
+	}
 
 	funcMap := template.FuncMap{
 		"autoImport":             autoImport,
@@ -216,7 +220,7 @@ func renderTemplate(tempName string, app interface{}, outPath string) error {
 		"getOrmPrimaryKey":       getOrmPrimaryKey,
 		"filterDefaultField":     filterDefaultField,
 	}
-	tmpl, err := template.New(tempName).Funcs(funcMap).ParseFiles(_filePath)
+	tmpl, err := template.New(tempName).Funcs(funcMap).Parse(string(_filePath))
 
 	if err != nil {
 		return fmt.Errorf("failed to parse template: %v", err)
@@ -249,6 +253,9 @@ func GetParentDir(path string, level int) string {
 
 // 获取模版目录
 func GetTempsDir() (string, error) {
+	tmpDir := os.TempDir()
+
+	fmt.Println("tempdir", tmpDir)
 	exe, err := os.Executable()
 	if err != nil {
 		fmt.Println("Failed to get executable path:", err)
