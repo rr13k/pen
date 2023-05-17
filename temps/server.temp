@@ -27,7 +27,7 @@ func (p *Pen{{.StructName}}) Create() error {
 }
 
 func (p *Pen{{.StructName}}) Delete() error {
-	return pen_models.Delete{{.StructName}}(1)
+	return pen_models.Delete{{.StructName}}(*p.{{.PrimaryKey}})
 }
 
 func (p *Pen{{.StructName}}) List() (*common.ListResult, error) {
@@ -51,7 +51,7 @@ func (p *Pen{{.StructName}}) List() (*common.ListResult, error) {
 }
 
 func (c *Pen{{.StructName}}) Get() (*models.{{.StructName}}, error) {
-	return pen_models.Get{{.StructName}}(c.{{.PrimaryKey}})
+	return pen_models.Get{{.StructName}}ByPrimary(*c.{{.PrimaryKey}})
 }
 
 func (p *Pen{{.StructName}}) getMaps() map[string]interface{} {
@@ -72,9 +72,11 @@ func (p *Pen{{.StructName}}) Update() error {
 func (p *Pen{{.StructName}}) Verify() (map[string]interface{}, error) {
 	data := make(map[string]interface{})
 
-	// if p.NameZH != nil {
-	// 	data["name_zh"] = *c.NameZH
-	// }
+	{{range filterDefaultField .Fields}}
+	if p.{{.Key}} != nil {
+		data["{{.Json}}"] = *p.{{.Key}} 
+	}
+	{{end}}
 
 	return data, nil
 }

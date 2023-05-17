@@ -8,6 +8,7 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/rr13k/pen/common"
 	"github.com/rr13k/pen/suger"
 )
 
@@ -208,7 +209,7 @@ func renderTemplate(tempName string, app interface{}, outPath string) error {
 	// tempsDir, _ := GetTempsDir()
 	// _filePath := path.Join(tempsDir, tempName)
 
-	_filePath, err := CmdEmbedTempsContent.ReadFile(fmt.Sprintf("temps/%s", tempName))
+	_filePath, err := common.EmbedTempsContent.ReadFile(fmt.Sprintf("temps/%s", tempName))
 	if err != nil {
 		fmt.Println("read file err:", err)
 	}

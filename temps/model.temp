@@ -1,4 +1,4 @@
-package __pen_models
+package pen_models
 
 import "{{.Name}}/internal/app/models"
 
@@ -7,7 +7,7 @@ func Create{{.StructName}}(maps map[string]interface{}) error {
 }
 
 func Delete{{.StructName}}(id int) error {
-	return models.DB.Model(&models.{{.StructName}}{}).Where("id", id).Delete(&models.{{.StructName}}{}).Error
+	return models.DB.Delete(&models.{{.StructName}}{}, id).Error
 }
 
 func Get{{.StructName}}List(pageNum int, pageSize int, maps map[string]interface{}) ([]*models.{{.StructName}}, error) {
@@ -25,11 +25,11 @@ func Get{{.StructName}}Total(maps map[string]interface{}) (int, error) {
 }
 
 func Update{{.StructName}}({{toLowerFiristChar .PrimaryKey}} int, maps map[string]interface{}) error {
-	return models.DB.Model(&models.{{.StructName}}{}).Where("toLowerFiristChar .PrimaryKey", {{toLowerFiristChar .PrimaryKey}}).Updates(maps).Error
+	return models.DB.Model(&models.{{.StructName}}{}).Where("{{toLowerFiristChar .PrimaryKey}}", {{toLowerFiristChar .PrimaryKey}}).Updates(maps).Error
 }
 
-func Get{{.StructName}}(maps interface{}) (*models.{{.StructName}}, error) {
+func Get{{.StructName}}ByPrimary({{toLowerFiristChar .PrimaryKey}} int) (*models.{{.StructName}}, error) {
 	var _{{toLowerFiristChar .StructName}} *models.{{.StructName}}
-	err := models.DB.Model(&models.{{.StructName}}{}).Where(maps).Find(&_{{toLowerFiristChar .StructName}}).Error
+	err := models.DB.Model(&models.{{.StructName}}{}).Where("{{toLowerFiristChar .PrimaryKey}}", {{toLowerFiristChar .PrimaryKey}}).First(&_{{toLowerFiristChar .StructName}}).Error
 	return _{{toLowerFiristChar .StructName}}, err
 }

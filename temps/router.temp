@@ -14,12 +14,15 @@ import (
 
 func init() {
 	router.UrlGroup("/{{toLowerFiristChar .StructName}}",
-		router.Url("/list", Get{{.StructName}}List),
-		router.Url("/find", Get{{.StructName}}),
+		router.Url("/create", Create{{.StructName}}),
+		router.Url("/delete", Delete{{.StructName}}),
+		router.Url("/update", Update{{.StructName}}),
+		router.Url("/list", Find{{.StructName}}List),
+		router.Url("/find", Find{{.StructName}}),
 	)
 }
 
-func Get{{.StructName}}List(w http.ResponseWriter, r *http.Request) {
+func Find{{.StructName}}List(w http.ResponseWriter, r *http.Request) {
 
 	type Args struct {
 		servers.Pagination
@@ -151,7 +154,7 @@ func Create{{.StructName}}(w http.ResponseWriter, r *http.Request) {
 	w.Write(_res)
 }
 
-func Get{{.StructName}}(w http.ResponseWriter, r *http.Request) {
+func Find{{.StructName}}(w http.ResponseWriter, r *http.Request) {
 	type Args struct {
 		{{.PrimaryKey}}   *int  `json:"{{toLowerFiristChar .PrimaryKey}}"`
 	}
@@ -172,7 +175,9 @@ func Get{{.StructName}}(w http.ResponseWriter, r *http.Request) {
 
 	result.Data, err = {{toLowerFiristChar .StructName}}Server.Get()
 	if err != nil {
-		fmt.Println(err)
+		result.Data = nil
+		result.Success = false
+		result.Msg = err.Error()
 	}
 
 	_res, _ := json.Marshal(result)

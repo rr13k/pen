@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"embed"
 	"fmt"
 	"os"
 	"path"
@@ -12,8 +11,6 @@ import (
 	"github.com/rr13k/pen/structure"
 	"github.com/spf13/cobra"
 )
-
-var CmdEmbedTempsContent embed.FS
 
 var AppModelMap = map[string]string{
 	"1": "gorm",
@@ -50,7 +47,7 @@ var cmdApp = &cobra.Command{
 
 		GenerationModel(path.Join(filepath.Dir(cmdPath), appName, "internal", "app", "models", "user.go"))
 
-		fmt.Printf("%s项目%s创建成功！can you: cd %s\n", branch, appName, appName)
+		fmt.Printf("%s项目%s创建成功！can you: cd %s\n && go mod tidy", branch, appName, appName)
 		// 生成基础模型文件
 	},
 }
@@ -65,8 +62,7 @@ var cmdModul = &cobra.Command{
 	},
 }
 
-func Cli(EmbedTempsContent embed.FS) {
-	CmdEmbedTempsContent = EmbedTempsContent
+func Cli() {
 	var rootCmd = &cobra.Command{Use: "pen"}
 	rootCmd.AddCommand(cmdApp, cmdModul)
 	rootCmd.Version = "v0.0.1"
