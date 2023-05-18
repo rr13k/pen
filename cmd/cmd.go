@@ -53,7 +53,7 @@ var cmdApp = &cobra.Command{
 }
 
 var cmdModul = &cobra.Command{
-	Use:   "modul [path]",
+	Use:   "model [path]",
 	Short: "by model file path generation http server",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {

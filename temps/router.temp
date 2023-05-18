@@ -82,7 +82,7 @@ func Update{{.StructName}}(w http.ResponseWriter, r *http.Request) {
 	}
 	err = {{toLowerFiristChar .StructName}}Server.Update()
 	if err != nil {
-		fmt.Print(err)
+		result.Success = false
 		result.Msg = err.Error()
 	}
 
@@ -100,7 +100,10 @@ func Delete{{.StructName}}(w http.ResponseWriter, r *http.Request) {
 	)
 
 	json.NewDecoder(r.Body).Decode(&args)
-	var result common.BaseResponse
+	var result = &common.BaseResponse{
+		Success: true,
+		Msg:     "删除成功!",
+	}
 
 	{{toLowerFiristChar .StructName}}Server := {{toLowerFiristChar .StructName}}_server.{{.StructName}}{
 		Pen{{.StructName}} : {{getServerPenStruceName .StructName}}.Pen{{.StructName}}{
@@ -110,8 +113,8 @@ func Delete{{.StructName}}(w http.ResponseWriter, r *http.Request) {
 
 	err = {{toLowerFiristChar .StructName}}Server.Delete()
 	if err != nil {
+		result.Success = false
 		result.Msg = err.Error()
-		result.Code = 22
 	}
 	_res, _ := json.Marshal(result)
 	w.Write(_res)
