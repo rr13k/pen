@@ -11,5 +11,5 @@ import (
 func Test_main(t *testing.T) {
 	fmt.Println(EmbedTempsContent)
 	common.EmbedTempsContent = EmbedTempsContent
-	cmd.GenerationModel("/Users/zhouyuan11/work/pen/pen-test/internal/app/models/user.go")
+	cmd.GenerationModel("internal/app/models/article.go")
 }
